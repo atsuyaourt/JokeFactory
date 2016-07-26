@@ -13,7 +13,14 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         super(Application.class);
     }
 
+    // Test if the AsyncTask is fetching a non-empty String
     public void testFetchJokeAsyncTask() throws ExecutionException, InterruptedException {
-        assertFalse(new FetchJokeAsyncTask().execute(this.getContext()).get().isEmpty());
+        String jokeStr = null;
+        try {
+            jokeStr = new FetchJokeAsyncTask(this.getContext()).execute().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertNotNull(jokeStr);
     }
 }

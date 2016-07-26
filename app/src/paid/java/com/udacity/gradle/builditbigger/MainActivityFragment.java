@@ -27,7 +27,6 @@ public class MainActivityFragment extends Fragment {
         mContext = getContext();
 
         mJokeBtn = (Button) rootView.findViewById(R.id.joke_btn);
-
         mJokeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,6 +38,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void tellJoke(){
-        new FetchJokeAsyncTask().execute(mContext);
+        new FetchJokeAsyncTask(mContext).execute();
     }
 }

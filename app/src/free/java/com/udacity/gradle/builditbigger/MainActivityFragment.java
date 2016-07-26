@@ -71,7 +71,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void tellJoke(){
-        new FetchJokeAsyncTask().execute(mContext);
+        new FetchJokeAsyncTask(mContext).execute();
     }
 
     private void requestNewInterstitial() {

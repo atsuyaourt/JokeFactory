@@ -1,5 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -16,12 +17,18 @@ import java.io.IOException;
 /**
  * Created by yoh268 on 7/26/2016.
  */
-class FetchJokeAsyncTask extends AsyncTask<Context, Void, String> {
+class FetchJokeAsyncTask extends AsyncTask<Void, Void, String> {
     private static MyApi myApiService = null;
     private Context mContext;
 
+    private ProgressDialog mProgressDialog;
+
+    public FetchJokeAsyncTask(Context context) {
+        mContext = context;
+    }
+
     @Override
-    protected String doInBackground(Context... params) {
+    protected String doInBackground(Void... params) {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -36,8 +43,6 @@ class FetchJokeAsyncTask extends AsyncTask<Context, Void, String> {
             myApiService = builder.build();
         }
 
-        mContext = params[0];
-
         try {
             return myApiService.tellJoke().execute().getData();
         } catch (IOException e) {
@@ -46,7 +51,15 @@ class FetchJokeAsyncTask extends AsyncTask<Context, Void, String> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog = ProgressDialog.show(mContext, "",
+                mContext.getString(R.string.please_wait), false);
+    }
+
+    @Override
     protected void onPostExecute(String result) {
+        mProgressDialog.dismiss();
         if (result != null && result.length() > 0) {
             Intent intent = new Intent(mContext, JokeActivity.class);
             intent.putExtra(Intent.EXTRA_TEXT, result);
