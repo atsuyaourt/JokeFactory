@@ -18,9 +18,9 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         String jokeStr = null;
         try {
             jokeStr = new FetchJokeAsyncTask(this.getContext()).execute().get();
+            assertNotNull(jokeStr);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertNotNull(jokeStr);
     }
 }
