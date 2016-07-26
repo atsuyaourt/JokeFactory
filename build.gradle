@@ -16,3 +16,18 @@ allprojects {
         jcenter()
     }
 }
+
+// the optional task
+task runBackendThenTest {
+    evaluationDependsOn ":jokebackend" // this task depends on this project
+    project(":jokebackend"){
+        appengine{
+            daemon true  // run as a daemon
+        }
+    }
+    dependsOn ':jokebackend:appengineRun' // to make sure this will run first
+    finalizedBy([':app:connectedCheck',':jokebackend:appengineStop']) // then these
+    doLast {  // and finally this
+        println 'testFetchFromBackend completed'
+    }
+}
