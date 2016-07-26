@@ -39,6 +39,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile project(path: ':jokebackend', configuration: 'android-endpoints')
     freeCompile 'com.google.firebase:firebase-ads:9.2.1'
+    compile 'com.android.support:design:24.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
